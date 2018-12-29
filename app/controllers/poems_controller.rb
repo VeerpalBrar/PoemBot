@@ -69,6 +69,6 @@ class PoemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poem_params
-      params.require(:poem).permit(:author, :test)
+      params.require(:poem).permit(:author, :content)
     end
 end
