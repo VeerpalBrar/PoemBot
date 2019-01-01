@@ -4,7 +4,7 @@ class PoemsController < ApplicationController
   # GET /poems
   # GET /poems.json
   def index
-    @poems = Poem.all
+    @poems = Poem.order("created_at DESC")
   end
 
   # GET /poems/1
@@ -26,14 +26,10 @@ class PoemsController < ApplicationController
   def create
     @poem = Poem.new(poem_params)
 
-    respond_to do |format|
-      if @poem.save
-        format.html { redirect_to @poem, notice: 'Poem was successfully created.' }
-        format.json { render :show, status: :created, location: @poem }
-      else
-        format.html { render :new }
-        format.json { render json: @poem.errors, status: :unprocessable_entity }
-      end
+    if@poem.save
+      render json: @poem
+    else
+      render json: @poem.errors, status: :unprocessable_entity
     end
   end
 
@@ -69,6 +65,6 @@ class PoemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poem_params
-      params.require(:poem).permit(:author, :content)
+      params.require(:poem).permit(:author, :title, :content)
     end
 end
