@@ -26,7 +26,7 @@ class PoemsController < ApplicationController
   def create
     @poem = Poem.new(poem_params)
 
-    if@poem.save
+    if @poem.save
       render json: @poem
     else
       render json: @poem.errors, status: :unprocessable_entity
@@ -54,6 +54,26 @@ class PoemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to poems_url, notice: 'Poem was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+  
+  def upvote
+    @poem = Poem.find_by(id: params[:id])
+    vote = @poem&.votes&.create
+    if vote
+      render json: @poem
+    else
+      render json: @poem.errors, status: :unprocessable_entity
+    end
+  end
+  
+  def upvote_count
+    @poem = Poem.find_by(id: params[:id])
+    vote_count = @poem&.votes&.count
+    if vote_count
+      render json: {count: vote_count}
+    else
+      render json: {error: "poem not found"}
     end
   end
 

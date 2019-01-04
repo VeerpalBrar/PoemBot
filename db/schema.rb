@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181229180020) do
+ActiveRecord::Schema.define(version: 20190102225709) do
 
   create_table "poems", force: :cascade do |t|
     t.string   "author"
@@ -18,6 +18,12 @@ ActiveRecord::Schema.define(version: 20181229180020) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "title"
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer  "poem_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

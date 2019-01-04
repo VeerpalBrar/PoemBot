@@ -13,3 +13,11 @@
  *= require_tree .
  *= require_self
  */
+
+.left {
+  float: left;
+}
+
+.right {
+  float: left;
+}
