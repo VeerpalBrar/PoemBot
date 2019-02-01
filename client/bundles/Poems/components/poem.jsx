@@ -1,5 +1,8 @@
-class Poem extends React.Component {
-    constructor(props) {
+import React from 'react';
+import Vote from './vote';
+
+export default class Poem extends React.Component {
+  constructor(props) {
     super(props);
     
     this.state = {
@@ -22,20 +25,20 @@ class Poem extends React.Component {
   voteCount(){
     var url = '/poems/'+this.props.poem.id+'/upvote_count'
     $.get(url,
-      ).done(function(data){
+    ).done(function(data){
         console.log(data)
-         this.setState({ votes: data.count });
+        this.setState({ votes: data.count });
     }.bind(this))
   }
   
   render() {
     return (
       <div className='poem'>
-        <div className='left'> 
+        <div className='left-15'> 
           <Vote count={this.state.votes} voteHandler={this.handleVote} />
         </div>
         
-        <div className='right'>
+        <div className='left'>
           <h3>{this.props.poem.title || 'Untitled' }</h3>
           <h5>by: {this.props.poem.author|| 'Anonymous'}</h5>
           <div>

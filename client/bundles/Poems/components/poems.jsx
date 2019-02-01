@@ -1,4 +1,8 @@
-class Poems extends React.Component {
+import React from 'react';
+import PoemForm from './poem_form';
+import PoemsList from './poems_list';
+
+export default class Poems extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

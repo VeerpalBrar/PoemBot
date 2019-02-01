@@ -1,15 +1,16 @@
-class PoemForm extends React.Component {
-   constructor(props) {
+import React from 'react';
+export default class PoemForm extends React.Component {
+  constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   
   handleChange(e) {
-    var name = e.target.name;
-      obj = {};
-      obj[name] = e.target.value;
-      this.props.onUserInput(obj);
+    const name = e.target.name;
+    const obj = {};
+    obj[name] = e.target.value;
+    this.props.onUserInput(obj);
   }
   
   handleSubmit(e) {

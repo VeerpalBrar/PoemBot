@@ -1,4 +1,7 @@
-class PoemsList extends React.Component {
+import React from 'react';
+import Poem from './poem';
+
+export default class PoemsList extends React.Component {
   render() {
     return (
       <div>
