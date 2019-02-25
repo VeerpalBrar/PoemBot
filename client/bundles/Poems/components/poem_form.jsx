@@ -1,4 +1,6 @@
 import React from 'react';
+import { FormErrors } from './form_errors';
+
 export default class PoemForm extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,7 @@ export default class PoemForm extends React.Component {
     return (
       <div>
         <h2>Write a new Poem</h2>
+        <FormErrors formErrors={this.props.formErrors}/>
         <form onSubmit={this.handleSubmit}>
           <input name='title' placeholder='Title' value={this.props.input_title} onChange={this.handleChange}/> <br />
           <input name='author' placeholder='Author' value={this.props.input_author} onChange={this.handleChange}/> <br />

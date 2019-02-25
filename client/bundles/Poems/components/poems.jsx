@@ -9,7 +9,8 @@ export default class Poems extends React.Component {
       poems: this.props.poems, 
       title : '', 
       author: '', 
-      content: ''
+      content: '', 
+      formErrors: {}
     };
     
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -29,11 +30,14 @@ export default class Poems extends React.Component {
     var poem = {title: this.state.title, author: this.state.author, content: this.state.content}
     $.post('/poems',
       {poem: poem}
-      ).done(function(data){
+      ).done((data) => {
         this.addNewPoem(data);
         this.resetState()
-    }.bind(this))
-  
+    })
+    .fail((response) => {
+      console.log(response)
+      this.setState({formErrors: response.responseJSON})
+    })
   }
   
   addNewPoem(poem){
@@ -42,17 +46,15 @@ export default class Poems extends React.Component {
     this.setState({ poems: poems.sort(function(a,b){
         return new Date(b.created_at) - new Date(a.created_at);
       })
-      
-    }, function(){
-      console.log(this.state)
-    });
+    })
   }
   
   resetState(){
     this.setState({
       title : '', 
       author: '', 
-      content: ''
+      content: '', 
+      formErrors: {}
     })
   }
   
@@ -63,7 +65,9 @@ export default class Poems extends React.Component {
           input_author={this.state.author}
           input_content={this.state.content}
           onUserInput={this.handleUserInput}
-          onFormSubmit={this.handleFormSubmit}/>
+          onFormSubmit={this.handleFormSubmit}
+          formErrors={this.state.formErrors}/>
+          
           
         <PoemsList poems={this.state.poems} />
       </div>
