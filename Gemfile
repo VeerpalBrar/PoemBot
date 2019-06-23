@@ -71,3 +71,4 @@ gem 'mini_racer', platforms: :ruby
 gem 'haml'
 gem 'jquery-rails'
 gem 'devise'
+gem 'doorkeeper'
