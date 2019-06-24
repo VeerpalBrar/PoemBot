@@ -14,7 +14,6 @@ module Api
       end
       
       def create
-        byebug
         respond_with Poem.create(poem_params)
       end
       
