@@ -1,5 +1,7 @@
 import React from 'react';
 import Vote from './vote';
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography';
 
 export default class Poem extends React.Component {
   constructor(props) {
@@ -37,8 +39,24 @@ export default class Poem extends React.Component {
         <div className='left-15'> 
           <Vote count={this.state.votes} voteHandler={this.handleVote} />
         </div>
+        <Paper class="left">
+          <Typography variant="h5" component="h3">
+            {this.props.poem.title || 'Untitled' }
+          </Typography>
+
+          <Typography component="h5">
+            by: {this.props.poem.author|| 'Anonymous'}
+          </Typography>
+
+          <Typography class="left">
+            {this.props.poem.content.split("\n").map((i,key) => {
+                return <pre key={key}>{i}</pre>;
+            })}
+          </Typography>
+        </Paper>
         
-        <div className='left'>
+        
+        {/* <div className='left'>
           <h3>{this.props.poem.title || 'Untitled' }</h3>
           <h5>by: {this.props.poem.author|| 'Anonymous'}</h5>
           <div>
@@ -46,7 +64,7 @@ export default class Poem extends React.Component {
                 return <pre key={key}>{i}</pre>;
             })}
           </div>
-        </div>
+        </div> */}
         
       </div>
     )
