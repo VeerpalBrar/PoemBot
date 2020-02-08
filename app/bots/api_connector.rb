@@ -27,7 +27,8 @@ class ApiConnector
       grant_type: 'client_credentials'
     }
     begin
-      reponse = RestClient.post("localhost:3000/oauth/token", params)
+      byebug
+      reponse = RestClient.post(host.concat("/oauth/token"), params)
       JSON.parse(reponse)['access_token']
     rescue RestClient::BadRequest => e
       puts e.response
@@ -47,5 +48,9 @@ class ApiConnector
   def poem
     output = `cd app/bots/markov && python poem_markov.py && cd ../../..`
     output.gsub!(",", ",\n").gsub(".", ".\n")
+  end
+
+  def host
+    Rails.env.development? ? 'localhost:3000' : 'poeticbot.herokuapp.com' 
   end
 end
