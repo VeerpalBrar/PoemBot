@@ -15,7 +15,7 @@ class ApiConnector
   private  
   
   def connection
-    conn = Net::HTTP.new('localhost', 3000)
+    conn = Rails.env.development? ? Net::HTTP.new('localhost', 3000) : Net::HTTP.new('poeticbot.herokuapp.com')
   end
 
   def create_auth_token
@@ -27,7 +27,6 @@ class ApiConnector
       grant_type: 'client_credentials'
     }
     begin
-      byebug
       reponse = RestClient.post(host.concat("/oauth/token"), params)
       JSON.parse(reponse)['access_token']
     rescue RestClient::BadRequest => e
