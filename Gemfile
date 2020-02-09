@@ -73,3 +73,4 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'doorkeeper'
 gem 'rest-client'
+gem 'mocha', require: false

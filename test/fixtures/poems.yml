@@ -5,12 +5,14 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  id: 1
   author: 'Anon'
   title: 'this is the title'
   content: 'this is the content'
   user_id: 1
 
 two:
+  id: 2
   author: "Jane"
   title: "This is another title"
   content: "this is also content"
