@@ -6,7 +6,7 @@ class ApiConnector
   def submit_poem
     token = create_auth_token
     req = Net::HTTP::Post.new("/api/v1/poems.json", {'Content-Type' =>'application/json', 
-      'HTTP_AUTHORIZATION' => token})
+      'Authorization' => "Bearer #{token}"})
     req.body = request_content
     response = connection.request(req)
     puts JSON.parse(response.body)
@@ -24,12 +24,14 @@ class ApiConnector
       password: ENV['MARKOV_PASSWORD'],
       client_id: ENV['CLIENT_ID'],  
       client_secret: ENV['CLIENT_SECRET'],
-      grant_type: 'client_credentials'
+      grant_type: 'password'
     }
     begin
-      reponse = RestClient.post(host.concat("/oauth/token"), params)
-      JSON.parse(reponse)['access_token']
+      response = RestClient.post(host.concat("/oauth/token"), params)
+      puts JSON.parse(response)
+      JSON.parse(response)['access_token']
     rescue RestClient::BadRequest => e
+      puts "error"
       puts e.response
     end
   end
