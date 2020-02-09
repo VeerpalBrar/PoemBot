@@ -5,8 +5,10 @@
 # below each fixture, per the syntax in the comments below
 #
 john:
+  id: 1
   email: john@example.com
   encrypted_password: password
 jane:
+  id: 2
   email: jane@example.com
   encrypted_password: password

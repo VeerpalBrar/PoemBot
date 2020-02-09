@@ -1,5 +1,6 @@
 class PoemsController < ApplicationController
   before_action :set_poem, only: [:show, :edit, :update, :destroy]
+  before_action :check_ownership, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   
   # GET /poems
@@ -15,7 +16,7 @@ class PoemsController < ApplicationController
 
   # GET /poems/new
   def new
-    @poem = Poem.new
+    @poem = current_user.poems.build()
   end
 
   # GET /poems/1/edit
@@ -25,7 +26,7 @@ class PoemsController < ApplicationController
   # POST /poems
   # POST /poems.json
   def create
-    @poem = Poem.new(poem_params)
+    @poem = current_user.poems.build(poem_params)
 
     if @poem.save
       render json: @poem
@@ -82,6 +83,12 @@ class PoemsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_poem
       @poem = Poem.find(params[:id])
+    end
+
+    def check_ownership
+      if @poem.user != current_user
+        render json: {}, status: 401
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

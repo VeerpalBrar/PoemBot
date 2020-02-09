@@ -5,7 +5,7 @@ class PoemsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     get '/users/sign_in'
-    sign_in users(:jane)
+    sign_in users(:john)
     @poem = poems(:one)
   end
 
@@ -52,4 +52,29 @@ class PoemsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to poems_url
   end
+
+   test "should not show poem if unauthorized" do
+    @poem = poems(:two)
+    get poem_url(@poem)
+    assert_response 401
+  end
+
+  test "should not get edit if unauthorized" do
+    @poem = poems(:two)
+    get edit_poem_url(@poem)
+    assert_response 401
+  end
+
+  test "should not update poem if unauthorized" do
+    @poem = poems(:two)
+    patch poem_url(@poem), params: { poem: {title: "new_title"} }
+    assert_response 401
+  end
+
+  test "should not destroy poem if unauthorized" do
+    @poem = poems(:two)
+    delete poem_url(@poem)
+    assert_response 401
+  end
+
 end
