@@ -12,6 +12,8 @@ jobs:
       - uses: ruby/setup-ruby@v1.31.1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install sqlite 3 
+        run: apt-get install libsqlite3-dev
       - name: Install dependencies
         run: |
           gem install bundler -v '1.16.6'
