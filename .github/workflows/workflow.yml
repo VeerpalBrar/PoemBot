@@ -1,12 +1,12 @@
 env:
-  RUBY_VERSION: 2.5.3
+  RUBY_VERSION: 2.5
 
 name: Rails tests
 on: [push,pull_request]
 jobs:
   rspec-test:
     name: RSpec
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
