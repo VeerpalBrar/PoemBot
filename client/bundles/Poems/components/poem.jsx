@@ -1,6 +1,7 @@
 import React from 'react';
 import Vote from './vote';
-import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 export default class Poem extends React.Component {
@@ -28,45 +29,40 @@ export default class Poem extends React.Component {
     var url = '/poems/'+this.props.poem.id+'/upvote_count'
     $.get(url,
     ).done(function(data){
-        console.log(data)
         this.setState({ votes: data.count });
     }.bind(this))
   }
-  
+
   render() {
     return (
-      <div className='poem'>
-        <div className='left-15'> 
-          <Vote count={this.state.votes} voteHandler={this.handleVote} />
-        </div>
-        <Paper class="left">
-          <Typography variant="h5" component="h3">
-            {this.props.poem.title || 'Untitled' }
-          </Typography>
-
-          <Typography component="h5">
-            by: {this.props.poem.author|| 'Anonymous'}
-          </Typography>
-
-          <Typography class="left">
-            {this.props.poem.content.split("\n").map((i,key) => {
-                return <pre key={key}>{i}</pre>;
-            })}
-          </Typography>
-        </Paper>
-        
-        
-        {/* <div className='left'>
-          <h3>{this.props.poem.title || 'Untitled' }</h3>
-          <h5>by: {this.props.poem.author|| 'Anonymous'}</h5>
-          <div>
-            {this.props.poem.content.split("\n").map((i,key) => {
-                return <pre key={key}>{i}</pre>;
-            })}
-          </div>
-        </div> */}
-        
-      </div>
-    )
+    <div>
+      <Paper className="poem">
+        <Grid container>
+          <Grid item xs={1}>
+              <Vote count={this.state.votes} voteHandler={this.handleVote} />
+          </Grid>
+          <Grid item xs={8} sm container direction="column" spacing={2}>
+              <Grid item xs>
+                  <Typography variant="h4" component="h3">
+                    {this.props.poem.title || 'Untitled' }
+                  </Typography>
+              </Grid>
+              <Grid item>
+                <Typography varient="h6">
+                  by: {this.props.poem.author|| 'Anonymous'}
+                </Typography>
+              </Grid>
+              <Grid item>
+                  {this.props.poem.content.split("\n").map((i,key) => {
+                      return <Grid item container wrap="nowrap" key={key}>
+                        <Typography varient="body2">{i}</Typography>
+                        </Grid>;
+                  })}            
+              </Grid>
+            </Grid>
+          </Grid>
+      </Paper>
+    </div>
+  );
   }
 }
