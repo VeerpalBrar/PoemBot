@@ -1,7 +1,7 @@
 class PoemsController < ApplicationController
   before_action :set_poem, only: [:show, :edit, :update, :destroy]
   before_action :check_ownership, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :upvote_count]
   
   # GET /poems
   # GET /poems.json
@@ -61,7 +61,8 @@ class PoemsController < ApplicationController
   
   def upvote
     @poem = Poem.find_by(id: params[:id])
-    vote = @poem&.votes&.create
+    byebug
+    vote = @poem&.votes&.create(user_id: current_user.id)
     if vote
       render json: @poem
     else
