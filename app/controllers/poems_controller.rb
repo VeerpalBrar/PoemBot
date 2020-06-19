@@ -61,8 +61,8 @@ class PoemsController < ApplicationController
   
   def upvote
     @poem = Poem.find_by(id: params[:id])
-    byebug
-    vote = @poem&.votes&.create(user_id: current_user.id)
+
+    vote = current_user.has_voted_for?(@poem.id) ? current_user.find_vote_for(@poem.id) : current_user.vote_for(@poem.id) 
     if vote
       render json: @poem
     else
@@ -74,7 +74,7 @@ class PoemsController < ApplicationController
     @poem = Poem.find_by(id: params[:id])
     vote_count = @poem&.votes&.count
     if vote_count
-      render json: {count: vote_count}
+      render json: {count: vote_count, by_current_user: current_user&.has_voted_for?(@poem.id)|| false}
     else
       render json: {error: "poem not found"}
     end

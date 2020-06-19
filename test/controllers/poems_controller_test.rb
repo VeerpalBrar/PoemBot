@@ -77,4 +77,21 @@ class PoemsControllerTest < ActionDispatch::IntegrationTest
     assert_response 401
   end
 
+  test "should create new vote for user" do
+    assert_difference('Vote.count') do
+      post '/poems/2/upvote'
+    end
+
+    assert_response :success
+  end
+
+  test "should not create new vote for user if the user has already voted" do
+    
+    assert_no_difference('Vote.count') do
+      post '/poems/1/upvote'
+    end
+
+    assert_response :success
+  end
+
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_01_202413) do
+ActiveRecord::Schema.define(version: 2020_06_19_153919) do
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer "resource_owner_id", null: false
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_06_01_202413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.index ["poem_id", "user_id"], name: "index_votes_on_poem_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 

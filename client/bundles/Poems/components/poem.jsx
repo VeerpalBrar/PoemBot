@@ -9,11 +9,13 @@ export default class Poem extends React.Component {
     super(props);
     
     this.state = {
-      votes: this.voteCount() 
+      votes: 0,
+      disable: false
     };
     
     this.handleVote = this.handleVote.bind(this);
     this.voteCount = this.voteCount.bind(this);
+    this.voteCount();
   }
 
   
@@ -29,7 +31,7 @@ export default class Poem extends React.Component {
     var url = '/poems/'+this.props.poem.id+'/upvote_count'
     $.get(url,
     ).done(function(data){
-        this.setState({ votes: data.count });
+        this.setState({ votes: data.count, disable: data.by_current_user });
     }.bind(this))
   }
 
@@ -39,7 +41,7 @@ export default class Poem extends React.Component {
       <Paper className="poem">
         <Grid container>
           <Grid item xs={1}>
-              <Vote count={this.state.votes} voteHandler={this.handleVote} />
+              <Vote count={this.state.votes} voteHandler={this.handleVote} disable={this.state.disable}/>
           </Grid>
           <Grid item xs={8} sm container direction="column" spacing={2}>
               <Grid item xs>
