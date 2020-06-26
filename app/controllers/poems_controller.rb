@@ -1,12 +1,12 @@
 class PoemsController < ApplicationController
   before_action :set_poem, only: [:show, :edit, :update, :destroy]
   before_action :check_ownership, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show, :upvote_count]
+  before_action :authenticate_user!, except: [:index, :show, :upvote_count, :fetch_page]
   
   # GET /poems
   # GET /poems.json
   def index
-    @poems = Poem.order("created_at DESC")
+    @poems = Poem.order("created_at DESC").page(1)
   end
 
   # GET /poems/1
@@ -78,6 +78,11 @@ class PoemsController < ApplicationController
     else
       render json: {error: "poem not found"}
     end
+  end
+
+  def fetch_page
+    poems = Poem.order("created_at DESC").page(params[:id])
+    render json: poems
   end
 
   private
