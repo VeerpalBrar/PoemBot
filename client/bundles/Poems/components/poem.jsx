@@ -3,7 +3,6 @@ import Vote from './vote';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-
 export default class Poem extends React.Component {
   constructor(props) {
     super(props);
@@ -20,18 +19,22 @@ export default class Poem extends React.Component {
 
   
   handleVote(e) {
-    var url = '/poems/'+this.props.poem.id+'/upvote'
-    $.post(url,
-      ).done(function(data){
-         this.setState({ votes: this.voteCount() });
-    }.bind(this))
+    if(this.props.loggedIn) {
+      var url = '/poems/'+this.props.poem.id+'/upvote'
+      $.post(url,
+        ).done(function(data){
+          this.setState({ votes: this.voteCount() });
+      }.bind(this))
+    } else {
+      window.location.href = "/users/sign_in"
+    }
   }
   
   voteCount(){
     var url = '/poems/'+this.props.poem.id+'/upvote_count'
     $.get(url,
     ).done(function(data){
-        this.setState({ votes: data.count, disable: data.by_current_user });
+      this.setState({ votes: data.count, disable: data.by_current_user });
     }.bind(this))
   }
 

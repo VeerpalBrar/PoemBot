@@ -33,6 +33,7 @@ export default class PoemForm extends React.Component {
       {poem: poem}
       ).done((data) => {
         this.resetState()
+        window.location.href = '/';
     })
     .fail((response) => {
       console.log(response)
