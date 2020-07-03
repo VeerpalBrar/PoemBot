@@ -7,7 +7,9 @@ Rails.application.routes.draw do
       resources :poems
     end
   end
-  
+
+  get '/poems/search', to: 'poems#search'
+ 
   resources :poems do
     member do
       post 'upvote'
@@ -15,7 +17,6 @@ Rails.application.routes.draw do
     end
   end
   
-  get '/poems/fetch_page/:id', to: 'poems#fetch_page'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'poems#index'
 

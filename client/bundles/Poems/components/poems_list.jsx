@@ -13,20 +13,19 @@ export default class PoemsList extends React.Component {
     
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({ poems: nextProps.poems });  
+  }
+
   handlePageChange(event) {
     const page = event.selected + 1;
-    $.get('/poems/fetch_page/' + page
-    ).done((data) => {
-      this.setState({poems: data, page: page})
-    })
-    .fail((response) => {
-      console.log(response)
-    })
+    this.setState({page: page});
+    this.props.onPageChange(page);
   }
 
   render() {
     return (
-      <div>
+      <div key={this.state.poems}>
         {this.state.poems.map((poem) => {
           return (<Poem poem={poem} key={poem.id} loggedIn={this.props.loggedIn}/>)
         })}

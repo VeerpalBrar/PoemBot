@@ -1,7 +1,7 @@
 class PoemsController < ApplicationController
   before_action :set_poem, only: [:show, :edit, :update, :destroy]
   before_action :check_ownership, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show, :upvote_count, :fetch_page]
+  before_action :authenticate_user!, except: [:index, :show, :upvote_count, :search]
   
   # GET /poems
   # GET /poems.json
@@ -80,8 +80,11 @@ class PoemsController < ApplicationController
     end
   end
 
-  def fetch_page
-    poems = Poem.order("created_at DESC").page(params[:id])
+  def search
+    page = params[:page] || 1
+    query = params[:query] || ''
+
+    poems = Poem.search(query).order("created_at DESC").page(params[:page])
     render json: poems
   end
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { TextField, Button } from '@material-ui/core';
 import PoemForm from './poem_form';
 import PoemsList from './poems_list';
 
@@ -6,70 +7,42 @@ export default class Poems extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      poems: this.props.poems, 
-      title : '', 
-      author: '', 
-      content: '', 
-      formErrors: {}
+      poems: this.props.poems,
+      query: '', 
     };
     
-    this.handleUserInput = this.handleUserInput.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.addNewPoem = this.addNewPoem.bind(this)
-    this.resetState = this.resetState.bind(this)
+    this.handleOnInputChange = this.handleOnInputChange.bind(this)
+    this.search = this.search.bind(this)
+    this.handleButtonClick = this.handleButtonClick.bind(this)
+
   }
   
-  handleUserInput(obj) {
-    this.setState(obj,
-    function () {
-      // do things after set state in a call back fyi
-    });
-  }
-  
-  handleFormSubmit() {
-    var poem = {title: this.state.title, author: this.state.author, content: this.state.content}
-    $.post('/poems',
-      {poem: poem}
-      ).done((data) => {
-        this.addNewPoem(data);
-        this.resetState()
+  search(page = 1) {
+    $.get('/poems/search?query='+this.state.query+'&page='+page)
+    .done((data) => {
+        this.setState({poems: data })
     })
     .fail((response) => {
       console.log(response)
-      this.setState({formErrors: response.responseJSON})
     })
+  }
+
+  handleButtonClick(event) {
+    this.search();
   }
   
-  addNewPoem(poem){
-    console.log(poem)
-    var poems = this.state.poems.concat(poem)
-    this.setState({ poems: poems.sort(function(a,b){
-        return new Date(b.created_at) - new Date(a.created_at);
-      })
-    })
-  }
-  
-  resetState(){
-    this.setState({
-      title : '', 
-      author: '', 
-      content: '', 
-      formErrors: {}
-    })
-  }
+  handleOnInputChange = (event) => {
+    const query = event.target.value;
+    this.setState({ query: query }, () => this.search());
+  };
   
   render() {
     return (
-      <div>
-        <PoemForm input_title={this.state.title}
-          input_author={this.state.author}
-          input_content={this.state.content}
-          onUserInput={this.handleUserInput}
-          onFormSubmit={this.handleFormSubmit}
-          formErrors={this.state.formErrors}/>
-          
-          
-        <PoemsList poems={this.state.poems} />
+      <div className="container">
+        <TextField id="standard-search" label="Search" type="search" defaultValue={this.state.query} onChange={this.handleOnInputChange} size={'medium'} />
+        <Button size="small" onClick={this.handleButtonClick}>Search</Button>
+
+        <PoemsList poems={this.state.poems} onPageChange={this.search}/>
       </div>
     )
   }
