@@ -1,0 +1,15 @@
+name: poembot
+
+vm:
+  image: /opt/dev/misc/railgun-images/default
+  ip_address: 192.168.64.78
+  memory:     4G
+  cores:      2
+
+volumes:
+  root: 6G
+
+services:
+
+hostnames:
+  - poembot.io: { proxy_to_host_port: 63498 }

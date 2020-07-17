@@ -1,0 +1,12 @@
+name: poembot
+
+type: rails
+
+env:
+  DOCKER_HOST: poembot.railgun:2375
+
+up:
+  - railgun
+  - node:
+      yarn: true
+      version: 8.1.4
