@@ -6,6 +6,6 @@ idna==2.6
 ipaddress==1.0.17
 keyring==10.6.0
 Markdown==2.6.9
-nltk==3.4.3
+nltk==3.6.3
 numpy==1.16.4
 pycrypto==2.6.1
